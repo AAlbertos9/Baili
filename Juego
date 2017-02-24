@@ -1,0 +1,1347 @@
+int Countdown;
+float Gradient = 20; //maintitle
+int ColorCode; //background
+PFont Freeland, Panton, PantonBold, PantonBold15, PantonBold50, PantonLight, PantonLight20;
+
+int Life;
+int Turn = 1;
+int Chosen = 2; //character choice
+String[] Luck5 = {"noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "luck"};
+String[] Luck15 = {"noluck", "noluck", "noluck", "noluck", "noluck", "noluck", "luck"};
+String[] Luck25 = {"noluck", "noluck", "noluck", "luck"};
+int Result, ResultN, N;
+int Attack;
+int DodgeTimeOnScreen = 121;
+
+int x = 0;
+int y = 0;
+int w = 500;
+int h = 500;
+int Screen;
+Creature Nej;
+Creature Xiik;
+Creature Waxak;
+Creature JaatsahaAgua;
+Creature JaatsahaFuego;
+Creature JaatsahaViento;
+
+import processing.sound.*;
+SoundFile file;
+
+void setup() {
+  size(900, 500);
+  background(#330000);
+  noStroke();
+
+  Freeland = loadFont("Freeland-200.vlw");
+  Panton = loadFont("Panton-LightitalicCaps-30.vlw");
+  PantonBold = loadFont("Panton-BlackCaps-20.vlw");
+  PantonBold15 = loadFont("Panton-BlackCaps-15.vlw");
+  PantonLight = loadFont("Panton-LightCaps-15.vlw");
+  PantonBold50 = loadFont("Panton-BlackCaps-50.vlw");
+  PantonLight20 = loadFont("Panton-LightCaps-20.vlw");
+
+  Nej = new Creature("Nejchak", "N", 15, 120, 15);
+  Xiik = new Creature("Xiik ti' Ja'", "X", 10, 100, 25);
+  Waxak = new Creature("Waxak Oochal", "W", 20, 150, 5);
+  JaatsahaAgua = new Creature("Jaatsahá", "JA", 7, 150, 0); 
+  JaatsahaFuego = new Creature("Jaatsahá", "JF", 10, 200, 0);
+  JaatsahaViento = new Creature("Jaatsahá", "JV", 15, 200, 0);
+
+  file = new SoundFile(this, "Intro.mp3");
+  file.play();
+  file.amp(0.5);
+}
+
+void draw() {
+
+  background(ColorCode); 
+
+  switch(Screen) {
+
+  case 0:
+    MainScreen();
+    break;
+
+  case 1:
+    History();
+    break;
+
+  case 2:
+    Instructions();
+    break;
+
+  case 3:
+    Characters();
+    break;
+
+  case 4:
+    GameOn();
+    break;
+
+  case 5:
+    GameScreen();
+    break;
+
+  case 6:
+    GameOver();
+    break;
+  }
+}
+
+class Creature {
+  String Name;
+  String Symbol;
+  int Skill; //attack points per hit
+  int Resistance; //defense points
+  int Agility; //%chance of dodge
+
+  Creature(String Name_, String Symbol_, int Skill_, int Resistance_, int Agility_) {
+    Name = Name_;
+    Symbol = Symbol_;
+    Skill = Skill_;
+    Resistance = Resistance_;
+    Agility = Agility_;
+  }
+
+  void Show() {
+    switch (Symbol) {
+    case "N":
+      N();
+      break;
+
+    case "X":
+      X();
+      break;
+
+    case "W":
+      W();
+      break;
+
+    case "JA":
+      JA();
+      break;
+
+    case "JF":
+      JF();
+      break;
+
+    case "JV":
+      JV();
+    }
+  }
+
+  void N() {
+    pushMatrix();
+
+    fill(#BC1313);
+
+    beginShape();
+    vertex(76.8, 30.5);
+    vertex(73.7, 32.4);
+    bezierVertex(73.7, 32.4, 66.4, 20.7, 69.9, 11.5);
+    bezierVertex(71.4, 7.4, 74.6, 4.5, 79.4, 2.6);
+    bezierVertex(80.4, 2.2, 81.5, 2.8, 81.8, 3.8);
+    bezierVertex(82.1, 4.7, 81.6, 5.7, 80.7, 6);
+    bezierVertex(76.9, 7.5, 74.5, 9.8, 73.4, 12.8);
+    bezierVertex(73.4, 12.8, 70.5, 20.3, 76.8, 30.5);
+    endShape();
+    beginShape();
+    vertex(97.4, 31.4);
+    vertex(80.9, 31.4);
+    bezierVertex(84.3, 16.9, 94.1, 16.9, 97.4, 31.4);
+    endShape();
+
+    beginShape();
+    vertex(119, 31.4);
+    vertex(102.6, 31.4);
+    bezierVertex(105.9, 16.9, 115.7, 16.9, 119, 31.4);
+    endShape();
+
+    beginShape();
+    vertex(123.2, 30.5);
+    vertex(126.3, 32.4);
+    bezierVertex(126.3, 32.4, 133.5, 20.7, 130, 11.5);
+    bezierVertex(128.5, 7.4, 125.3, 4.5, 120.6, 2.6);
+    bezierVertex(119.6, 2.2, 118.4, 2.8, 118.1, 3.8);
+    bezierVertex(117.8, 4.7, 118.3, 5.7, 119.2, 6);
+    bezierVertex(123, 7.5, 125.5, 9.8, 126.6, 12.8);
+    bezierVertex(126.6, 12.8, 129.4, 20.3, 123.2, 30.5);
+    endShape();
+
+    beginShape();
+    vertex(80.5, 152.5);
+    bezierVertex(80.9, 153.3, 81.3, 154, 81.6, 154.7);
+    bezierVertex(82.3, 155.9, 83, 157.1, 83.6, 158.3);
+    bezierVertex(80.2, 158.9, 76.9, 159.2, 73.7, 159.2);
+    bezierVertex(72.9, 159.2, 72.1, 159.2, 71.3, 159.2);
+    bezierVertex(66.7, 158.9, 62.4, 158, 58.5, 156.5);
+    bezierVertex(50.6, 153.5, 44.9, 148.1, 42.5, 141.4);
+    bezierVertex(41.3, 138.1, 40.9, 134.6, 41.5, 130.9);
+    bezierVertex(42, 127.2, 43.4, 123.5, 45.8, 119.9);
+    bezierVertex(48.5, 115.7, 52.3, 111.7, 57.1, 108);
+    bezierVertex(47.7, 111.4, 40.6, 117.7, 36.6, 126.4);
+    bezierVertex(31.5, 137.5, 33, 150, 40.4, 159.4);
+    bezierVertex(45.9, 166.3, 59.4, 176.7, 88, 171.4);
+    bezierVertex(87.8, 172.4, 87.1, 175.3, 85.6, 178);
+    bezierVertex(81.4, 178.6, 77.3, 178.9, 73.4, 179.1);
+    bezierVertex(67.7, 178.9, 62.5, 178.3, 57.6, 177);
+    bezierVertex(48.5, 174.5, 40.9, 169.8, 35.6, 163.2);
+    bezierVertex(31.2, 157.8, 28.5, 151.1, 27.7, 144.1);
+    bezierVertex(26.9, 137.2, 28.1, 130.2, 31, 123.8);
+    bezierVertex(34.2, 116.8, 39.5, 110.8, 46.2, 106.5);
+    bezierVertex(52.9, 102.3, 60.9, 99.8, 69.8, 99.1);
+    bezierVertex(68.8, 101.9, 68.2, 104.8, 68.2, 108);
+    bezierVertex(60.3, 112.7, 54.4, 117.9, 50.9, 123.3);
+    bezierVertex(47.4, 128.8, 46.5, 134.3, 48.2, 139.3);
+    bezierVertex(50., 144.3, 54.5, 148.4, 60.7, 150.8);
+    bezierVertex(66.4, 153, 73.3, 153.6, 80.5, 152.5);
+    endShape();
+
+    beginShape();
+    vertex(124.1, 88.2);
+    bezierVertex(125, 89.5, 125.9, 90.7, 126.8, 92.1);
+    bezierVertex(133, 90.6, 138.5, 88.3, 143.2, 85.2);
+    bezierVertex(149.2, 81.3, 153.6, 76.3, 155.9, 70.7);
+    bezierVertex(158.8, 63.8, 158, 56.6, 154, 51.6);
+    bezierVertex(151.6, 48.7, 148.3, 46.5, 144.3, 45.4);
+    bezierVertex(140.6, 44.4, 136.4, 44.1, 131.8, 44.7);
+    bezierVertex(130.6, 44.8, 129.7, 45.9, 130, 47.2);
+    bezierVertex(130.2, 48.5, 131.2, 49.1, 132.4, 49);
+    bezierVertex(140.6, 47.9, 147, 49.8, 150.6, 54.2);
+    bezierVertex(153.7, 58.1, 154.2, 63.5, 151.9, 69.1);
+    bezierVertex(148.1, 78.4, 137.9, 85.4, 124.1, 88.2);
+    endShape();
+
+    beginShape();
+    vertex(122.2, 197.4);
+    vertex(77.8, 197.4);
+    bezierVertex(77.8, 197.4, 74.1, 193.4, 77.8, 185.2);
+    bezierVertex(77.8, 185.2, 87.6, 185.2, 89.9, 171.2);
+    bezierVertex(90.1, 157.2, 69.9, 143.6, 70, 108.2);
+    bezierVertex(70.1, 86.9, 96.8, 76.7, 90, 64.6);
+    bezierVertex(88.3, 61.6, 72.7, 57.5, 78.5, 34.9);
+    vertex(121.5, 34.9);
+    bezierVertex(127.3, 57.5, 111.7, 61.6, 111.7, 61.6);
+    bezierVertex(103.2, 76.7, 129.9, 86.9, 130, 108.2);
+    bezierVertex(130.1, 143.6, 109.9, 157.2, 110.1, 171.2);
+    bezierVertex(110.1, 171.2, 112.4, 185.2, 122.2, 185.2);
+    bezierVertex(122.2, 185.2, 125.9, 193.4, 122.2, 197.4);
+    endShape();
+
+    popMatrix();
+  }
+  void X() {
+    pushMatrix();
+
+    fill(#17C1A3);
+
+    beginShape();
+    vertex(0, 0); // first point
+    bezierVertex(0, 30, 100, 15, 100, 45);
+    bezierVertex(100, 15, 200, 30, 200, 0);
+    bezierVertex(200, 0, 200, 30, 185, 30);
+    bezierVertex(185, 30, 170, 30, 170, 45);
+    bezierVertex(170, 45, 170, 60, 155, 60);
+    bezierVertex(155, 60, 140, 60, 140, 75);
+    bezierVertex(140, 75, 140, 90, 125, 90);
+    bezierVertex(110, 90, 100, 100, 100, 105);
+    bezierVertex(100, 100, 90, 90, 75, 90);
+    bezierVertex(75, 90, 60, 90, 60, 75);
+    bezierVertex(60, 75, 60, 60, 45, 60);
+    bezierVertex(45, 60, 30, 60, 30, 45);
+    bezierVertex(30, 45, 30, 30, 15, 30);
+    bezierVertex(15, 30, 0, 30, 0, 0);  
+    endShape();
+
+    beginShape();
+    vertex(66, 110);
+    bezierVertex(66, 110, 90, 100, 90, 100);
+    bezierVertex(92.5, 110, 107.5, 110, 110, 100);
+    bezierVertex(110, 100, 110, 100, 134, 110);
+    bezierVertex(120, 125, 80, 125, 66, 110);
+    endShape();
+
+    beginShape();
+    vertex(92.7, 124);
+    bezierVertex(101.8, 141.2, 68, 194.6, 90.4, 196);
+    bezierVertex(79, 190, 108.7, 140.3, 92.7, 124);
+    endShape();
+
+    beginShape();
+    vertex(107.3, 124);
+    bezierVertex(91.2, 140.3, 120.9, 190, 109.6, 196);
+    bezierVertex(131.9, 194.6, 98.1, 141.2, 107.3, 124);
+    endShape();
+
+    popMatrix();
+  }
+
+  void W() {
+    pushMatrix();
+
+    fill(#2E006F);
+
+    ellipseMode(CENTER);
+    ellipse(100, 70, 100, 100);
+
+    beginShape();
+    vertex(29.7, 0);
+    bezierVertex(35.3, 0.8, 41.4, 8.7, 24.1, 12);
+    bezierVertex(5.7, 15.5, -3.7, 23.6, 1.3, 29.2);
+    bezierVertex(8.8, 20.8, 27.9, 24.4, 24.1, 39);
+    bezierVertex(24.1, 39, 50.7, 38.5, 42.3, 48.8);
+    bezierVertex(42.3, 48.8, 47.5, 46, 53.3, 45.2);
+    bezierVertex(54.2, 43.5, 55.2, 41.8, 56.3, 40.2);
+    bezierVertex(45.5, 37.8, 26.6, 31.4, 35.8, 15.3);
+    bezierVertex(35.8, 15.3, 44.1, 0.6, 29.7, 0);
+    endShape();
+
+    beginShape();
+    vertex(170, 0);
+    bezierVertex(164.6, 0.8, 158.5, 8.7, 175.8, 12);
+    bezierVertex(194.2, 15.5, 203.7, 23.6, 198.6, 29.2);
+    bezierVertex(191.1, 20.8, 172.8, 24.4, 175.8, 39);
+    bezierVertex(175.8, 39, 149.2, 38.5, 157.6, 48.8);
+    bezierVertex(157.6, 48.8, 152.4, 46, 146.6, 45.2);
+    bezierVertex(145.7, 43.5, 144.7, 41.8, 143.6, 40.2);
+    bezierVertex(154.4, 37.8, 173.3, 31.4, 164.1, 15.3);
+    bezierVertex(164.1, 15.3, 155.8, 0.6, 170, 0);
+    endShape();
+
+    beginShape();
+    vertex(33.3, 103);
+    bezierVertex(35, 108.6, 39.5, 107.7, 40, 113);
+    bezierVertex(44.5, 113, 47.1, 121.7, 51, 115.4);
+    bezierVertex(54.9, 109, 61.4, 118, 61.1, 113.6);
+    bezierVertex(61, 111.6, 61.8, 109.3, 62.7, 107.4);
+    bezierVertex(62.1, 106.8, 61.5, 106.2, 60.9, 105.5);
+    bezierVertex(60.9, 105.5, 57.1, 109.6, 51, 105.1);
+    bezierVertex(50.3, 111.9, 38.3, 109.1, 33.3, 103);
+    endShape();
+
+    beginShape();
+    vertex(166.7, 103);
+    bezierVertex(164.9, 108.6, 160.4, 107.7, 159.9, 113);
+    bezierVertex(155.4, 113, 152.9, 121.7, 149, 115.4);
+    bezierVertex(145.1, 109, 138.6, 118, 138.8, 113.6);
+    bezierVertex(138.9, 111.6, 138.2, 109.3, 137.3, 107.4);
+    bezierVertex(137.9, 106.8, 138.5, 106.2, 139.1, 105.5);
+    bezierVertex(139.1, 105.5, 142.8, 109.6, 149, 105.1);
+    bezierVertex(149.7, 111.9, 161.7, 109.1, 166.7, 103);
+    endShape();
+
+    beginShape();
+    vertex(77.9, 117.7);
+    vertex(58.9, 145.3);
+    vertex(67.7, 162.5);
+    vertex(64.3, 148.4);
+    vertex(80.8, 119.3);
+    endShape();
+
+    beginShape();
+    vertex(85.3, 121.2);
+    vertex(76, 149.1);
+    vertex(87.9, 198.5);
+    vertex(82.9, 154.8);
+    vertex(90.7, 123.3);
+    endShape();
+
+    beginShape();
+    vertex(114.6, 121.2);
+    vertex(123.9, 149.1);
+    vertex(112, 198.5);
+    vertex(117, 154.8);
+    vertex(109.2, 123.3);
+    endShape();
+
+    beginShape();
+    vertex(122, 117.7);
+    vertex(141, 145.3);
+    vertex(132.2, 162.5);
+    vertex(135.6, 148.4);
+    vertex(119.1, 119.3);
+    endShape();
+
+    popMatrix();
+  }
+}
+
+void JA() {
+
+  fill(#B4FDFF);
+  beginShape();
+  vertex(189.9, 285.8);
+  bezierVertex(192.7, 282.6, 200.9, 263.1, 180.6, 262.2);
+  bezierVertex(160.3, 261.4, 169.4, 249.2, 162.2, 242.3);
+  bezierVertex(156.7, 237.1, 149.6, 244.2, 140.9, 248.7);
+  bezierVertex(135.2, 251.6, 130.4, 248, 126.1, 252.1);
+  bezierVertex(117, 260.9, 128.5, 276.5, 136.6, 269.3);
+  bezierVertex(129.6, 263.6, 139.7, 250, 148.3, 257.2);
+  bezierVertex(156.3, 264, 143.6, 276.3, 147.8, 286);
+  bezierVertex(154.3, 300.9, 182, 294.7, 189.9, 285.8);
+  endShape();
+
+  beginShape();
+  vertex(142.8, 266.7);
+  bezierVertex(140.5, 262.7, 143.9, 259.5, 146.6, 259.8);
+  bezierVertex(138.4, 255.1, 138, 266.7, 142.8, 266.7);
+  endShape();
+
+  beginShape();
+  vertex(158.3, 237.4);
+  bezierVertex(161.7, 240.4, 158.3, 226.1, 152, 232.3);
+  bezierVertex(149.6, 234.6, 154.6, 234, 158.3, 237.4);
+  endShape();
+
+  beginShape();
+  vertex(107.8, 249.5);
+  bezierVertex(122.5, 252.1, 122.1, 225.5, 126.8, 222.9);
+  bezierVertex(130.1, 221, 131.5, 224.2, 130.4, 226.1);
+  bezierVertex(128.8, 228.9, 131.4, 232.5, 143.1, 226.4);
+  bezierVertex(165.5, 214.8, 152.7, 200.7, 155.5, 192.9);
+  bezierVertex(157.5, 187.5, 172.5, 191.6, 173.4, 179.8);
+  bezierVertex(174.2, 169.3, 154.9, 173.5, 155.5, 180.7);
+  bezierVertex(156.1, 187, 151.4, 182.7, 147.5, 186.8);
+  bezierVertex(142.1, 192.5, 150.5, 202.1, 137.5, 210.7);
+  bezierVertex(128.1, 216.8, 123.6, 206.8, 115.1, 207.5);
+  bezierVertex(104.6, 208.5, 90.3, 246.3, 107.8, 249.5);
+  endShape();
+
+  beginShape();
+  vertex(98.4, 216.1);
+  bezierVertex(101.7, 217.2, 106.2, 207.6, 109.5, 205.3);
+  bezierVertex(104.1, 203.8, 93, 214.4, 98.4, 216.1);
+  endShape();
+
+  beginShape();
+  vertex(169.1, 165.3);
+  bezierVertex(173.6, 163.4, 170.6, 160.2, 174.3, 157.9);
+  bezierVertex(178, 155.7, 184.3, 164.1, 194.3, 158.1);
+  bezierVertex(206.3, 150.9, 204.1, 124.3, 198.2, 121.1);
+  bezierVertex(192.2, 118, 193.4, 124.2, 196.1, 126.7);
+  bezierVertex(201, 131.1, 197, 140, 193, 133.4);
+  bezierVertex(185.1, 120.3, 158.8, 137.1, 153.7, 131.7);
+  bezierVertex(148.9, 126.7, 153.3, 123.7, 147.8, 123);
+  bezierVertex(142.3, 122.2, 136.2, 141.5, 149.5, 144.5);
+  bezierVertex(162.8, 147.4, 164.2, 135.9, 173.4, 138.3);
+  bezierVertex(182.6, 140.7, 180, 151.3, 170.2, 152.4);
+  bezierVertex(160.4, 153.3, 163.6, 167.7, 169.1, 165.3);
+  endShape();
+
+  beginShape();
+  vertex(182, 117.8);
+  bezierVertex(182.9, 119.5, 186.2, 119.7, 187.5, 118.3);
+  bezierVertex(189, 116.8, 188.8, 112.7, 185.2, 112.6);
+  bezierVertex(183.6, 112.5, 180.7, 115.2, 182, 117.8);
+  endShape();
+
+  beginShape();
+  vertex(153.6, 119.2);
+  bezierVertex(156, 120.6, 160.3, 115, 158.2, 113.3);
+  bezierVertex(153, 109.5, 150, 117.2, 153.6, 119.2);
+  endShape();
+
+  beginShape();
+  vertex(122.3, 120.3);
+  bezierVertex(125.1, 120.9, 125.8, 115.1, 128.6, 114.4);
+  bezierVertex(132.1, 113.5, 133.7, 120.3, 139.7, 116.3);
+  bezierVertex(142.4, 114.6, 142.5, 111.9, 138.3, 103.6);
+  bezierVertex(134, 95.2, 133.9, 92.9, 137.5, 88.1);
+  bezierVertex(141.2, 83.4, 150.1, 83.4, 152.4, 85.8);
+  bezierVertex(155.4, 88.9, 170.3, 88.7, 164, 76.5);
+  bezierVertex(158.8, 66.5, 179.8, 65.5, 178.6, 55.5);
+  bezierVertex(177.3, 45.5, 168.1, 46.7, 168.3, 49.3);
+  bezierVertex(168.6, 51.9, 172.8, 61.4, 158.8, 61.9);
+  bezierVertex(145.1, 62.4, 134.5, 67.9, 137.9, 73.7);
+  bezierVertex(141.1, 79.2, 153.7, 67.7, 152.7, 74.8);
+  bezierVertex(152, 79.8, 136.7, 73.9, 130, 82.1);
+  bezierVertex(121.1, 92.7, 138.2, 100, 127.1, 107.7);
+  bezierVertex(123.2, 110.3, 118.7, 119.5, 122.3, 120.3);
+  endShape();
+
+  beginShape();
+  vertex(130.9, 76.8);
+  bezierVertex(129.8, 77.1, 125.9, 75.7, 128.4, 73.3);
+  bezierVertex(130.8, 71, 133.3, 76.1, 130.9, 76.8);
+  endShape();
+
+  beginShape();
+  vertex(146.9, 41.8);
+  bezierVertex(151.8, 41.6, 154.3, 38.3, 156.7, 36.6);
+  bezierVertex(159.1, 34.7, 161.1, 34.4, 160.8, 37.8);
+  bezierVertex(160.5, 42.4, 166.3, 43.8, 167.8, 38);
+  bezierVertex(169.6, 31.3, 161.5, 22.3, 155, 30.6);
+  bezierVertex(147.7, 39.7, 139.2, 36, 144.8, 29.4);
+  bezierVertex(150, 23.5, 145.5, 19.6, 143.9, 19.6);
+  bezierVertex(142, 19.5, 136.8, 19.5, 135, 26.3);
+  bezierVertex(132.9, 33.1, 135.4, 42.2, 146.9, 41.8);
+  endShape();
+
+  beginShape();
+  vertex(156.1, 16.5);
+  bezierVertex(163.6, 18.3, 161.6, 4.2, 155.1, 5);
+  bezierVertex(150, 5.7, 149, 14.8, 156.1, 16.5);
+  endShape();
+}
+
+void JF() {
+  noStroke();
+  fill(#FF7D03);
+
+  beginShape();
+  vertex(186, 293);
+  bezierVertex(197, 283, 201, 241, 170, 244);
+  bezierVertex(158, 245, 154, 234, 162, 232);
+  bezierVertex(154, 232, 153, 241, 155, 245);
+  bezierVertex(139, 235, 142, 219, 147, 207);
+  bezierVertex(139, 211, 132, 227, 132, 227);
+  bezierVertex(119, 210, 134, 181, 134, 181);
+  bezierVertex(113, 209, 119, 246, 135, 256);
+  bezierVertex(128, 258, 121, 252, 121, 252);
+  bezierVertex(143, 308, 186, 293, 186, 293);
+  endShape();
+
+  beginShape();
+  vertex(112, 239);
+  bezierVertex(96, 232, 112, 220, 99, 209);
+  bezierVertex(121, 217, 101, 224, 112, 239);
+  endShape();
+
+  beginShape();
+  vertex(161, 226);
+  bezierVertex(160, 213, 178, 220, 165, 203);
+  bezierVertex(173, 213, 155, 212, 161, 226);
+  endShape();
+
+  beginShape();
+  vertex(117, 194);
+  bezierVertex(97, 169, 122, 163, 116, 144);
+  bezierVertex(116, 144, 121, 147, 121, 152);
+  bezierVertex(128, 145, 123, 118, 116, 110);
+  bezierVertex(124, 111, 141, 134, 129, 151);
+  bezierVertex(112, 178, 117, 194, 117, 194);
+  endShape();
+
+  beginShape();
+  vertex(137, 203);
+  bezierVertex(134, 181, 176, 186, 181, 157);
+  bezierVertex(184, 162, 182, 174, 173, 183);
+  bezierVertex(206, 170, 209, 110, 173, 93);
+  bezierVertex(184, 103, 184, 149, 153, 169);
+  bezierVertex(154, 160, 152, 155, 146, 149);
+  bezierVertex(155, 171, 129, 194, 137, 203);
+  endShape();
+
+  beginShape();
+  vertex(158, 138);
+  bezierVertex(162, 139, 176, 97, 151, 87);
+  bezierVertex(151, 87, 163, 93, 162, 113);
+  bezierVertex(162, 113, 155, 106, 151, 107);
+  bezierVertex(158, 112, 163, 122, 158, 138);
+  endShape();
+
+  beginShape();
+  vertex(172, 83);
+  bezierVertex(183, 60, 156, 65, 167, 27);
+  bezierVertex(157, 38, 160, 54, 160, 54);
+  bezierVertex(158, 53, 155, 48, 155, 48);
+  bezierVertex(154, 67, 175, 74, 172, 83);
+  endShape();
+
+  beginShape();
+  vertex(157, 27);
+  bezierVertex(157, 27, 155, 12, 166, 8);
+  bezierVertex(166, 8, 147, 2, 157, 27);
+  endShape();
+}
+
+void JV() {
+  fill(#FFFFFF);
+  beginShape();
+  vertex(110, 294);
+  bezierVertex(103, 296, 92, 276, 114, 271);
+  bezierVertex(101, 265, 109, 249, 117, 245);
+  bezierVertex(137, 237, 145, 260, 129, 261);
+  bezierVertex(129, 261, 143, 272, 153, 257);
+  bezierVertex(161, 244, 154, 241, 149, 245);
+  bezierVertex(143, 248, 146, 228, 158, 233);
+  bezierVertex(143, 218, 167, 184, 173, 208);
+  bezierVertex(182, 177, 221, 206, 191, 221);
+  bezierVertex(196, 220, 203, 236, 180, 238);
+  bezierVertex(170, 240, 165, 249, 167, 254);
+  bezierVertex(170, 260, 170, 269, 160, 271);
+  bezierVertex(160, 271, 157, 284, 144, 278);
+  bezierVertex(135, 294, 111, 267, 110, 294);
+  endShape();
+
+  beginShape();
+  vertex(118, 233);
+  bezierVertex(118, 233, 118, 226, 125, 218);
+  bezierVertex(136, 207, 131, 195, 125, 189);
+  bezierVertex(119, 182, 102, 185, 109, 199);
+  bezierVertex(104, 197, 92, 207, 98, 214);
+  bezierVertex(107, 223, 115, 200, 119, 205);
+  bezierVertex(124, 212, 108, 227, 118, 233);
+  endShape();
+
+  beginShape();
+  vertex(173, 187);
+  bezierVertex(170, 175, 190, 170, 183, 162);
+  bezierVertex(187, 158, 200, 172, 186, 175);
+  bezierVertex(192, 180, 186, 183, 183, 183);
+  bezierVertex(180, 183, 177, 182, 173, 187);
+  endShape();
+
+  beginShape();
+  vertex(143, 190);
+  bezierVertex(134, 179, 154, 163, 152, 148);
+  bezierVertex(150, 132, 127, 131, 128, 145);
+  bezierVertex(103, 139, 104, 171, 118, 164);
+  bezierVertex(114, 172, 128, 177, 130, 170);
+  bezierVertex(132, 164, 137, 166, 136, 172);
+  bezierVertex(134, 179, 135, 185, 143, 190);
+  endShape();
+
+  beginShape();
+  vertex(162, 172);
+  bezierVertex(162, 172, 151, 169, 167, 142);
+  bezierVertex(178, 126, 166, 118, 161, 121);
+  bezierVertex(148, 127, 147, 104, 160, 109);
+  bezierVertex(144, 87, 169, 54, 178, 90);
+  bezierVertex(184, 73, 213, 89, 189, 109);
+  bezierVertex(198, 99, 206, 126, 184, 128);
+  bezierVertex(192, 148, 157, 146, 162, 172);
+  endShape();
+
+  beginShape();
+  vertex(141, 121);
+  bezierVertex(127, 118, 139, 90, 123, 86);
+  bezierVertex(103, 81, 103, 111, 118, 104);
+  bezierVertex(107, 107, 110, 121, 120, 118);
+  bezierVertex(135, 113, 130, 123, 141, 121);
+  endShape();
+
+  beginShape();
+  vertex(147, 80);
+  bezierVertex(142, 80, 136, 72, 139, 62);
+  bezierVertex(141, 57, 133, 64, 132, 52);
+  bezierVertex(129, 37, 145, 29, 144, 40);
+  bezierVertex(150, 36, 158, 43, 147, 54);
+  bezierVertex(155, 61, 136, 69, 147, 80);
+  endShape();
+
+  beginShape();
+  vertex(154, 22);
+  bezierVertex(166, 20, 157, 2, 149, 5);
+  bezierVertex(142, 8, 146, 18, 151, 17);
+  bezierVertex(155, 15, 154, 22, 154, 22);
+  endShape();
+}
+
+//Pantallas de juego
+
+void MainScreen() {
+  ColorCode = #330000;
+  colorMode(HSB, 100);
+
+  Countdown++;
+  if (Countdown >= 60) { 
+    fill(0, 100, Gradient);
+    textFont(Freeland, 200);
+    text("BAILI'", 170, 250);
+    Gradient+=0.15;
+    if (Countdown >= 250) {
+      textSize(50);
+      fill(0, 100, 50);
+      text("Haz Click", 350, 400);
+      Gradient+=0.7;
+    }
+  }
+  x = 0;
+  y = 0;
+  w = 900;
+  h = 500;
+}
+
+void History() {
+  ColorCode = #980000;
+  textFont(Panton);
+  fill(#FF7E7E);
+  text("Desde el origen del mundo surgió Jaatsahá,", 50, 90);
+  text("una fuerza que se apoderaba de las criaturas", 50, 125);
+  text("y las usaba a voluntad, despojándolas de su espíritu.", 50, 160);
+  text("Se había logrado controlar su poder,", 50, 210);
+  text("pero fue con el solsticio del milésimo año", 50, 245);
+  text("que ganó fuerzas y rompió el encadenamiento", 50, 280);
+  text("que lo detenía de tomar a las criaturas del mundo.", 50, 315);
+  textFont(Panton, 35);
+  text("Es tu turno de detenerlo...", 200, 435);
+  x = 750;
+  y = 400;
+  w = 100;
+  h = 50;
+  fill(#550000);
+  rect(x, y, w, h);
+  fill(#980000);
+  pushMatrix();
+  translate(662, 337);
+  beginShape();
+  scale(0.8);
+  vertex(130, 100);
+  vertex(130, 120);
+  vertex(200, 120);
+  vertex(200, 135);
+  vertex(220, 110);
+  vertex(200, 85);
+  vertex(200, 100);
+  vertex(130, 100);    
+  endShape();
+  popMatrix();
+}
+
+void Instructions() {
+  ColorCode = #65697E;
+
+  x = 750;
+  y = 400;
+  w = 100;
+  h = 50;
+
+  fill(#FFFFFF);
+  textFont(PantonBold50);
+  textSize(50);
+
+  pushMatrix();
+  rotate(PI*1.5);
+  text("Instrucciones", -444, 70);
+  popMatrix();
+
+  textFont(PantonLight20);
+  text("Utiliza", 150, 70);
+  text("para escoger a tu personaje", 350, 70);
+  text("Con", 183, 170);
+  text("puedes realizar un ataque", 350, 170);
+  textFont(PantonBold);
+  text("Haz click", 150, 270);
+  textFont(PantonLight20);
+  text("para pasar hacia la siguiente pantalla", 270, 270);
+  text("La habilidad de tu personaje es el ataque que recibe tu", 130, 350);
+  text("contrincante, tu resistencia es lo que soportarás y la", 130, 380);
+  text("agilidad equivale al porcentaje de posibilidad que tienes", 130, 410);
+  text("de esquivar un ataque", 130, 440);
+
+  rect(x, y, w, h);
+  fill(#65697E);
+  pushMatrix();
+  translate(662, 337);
+  beginShape();
+  scale(0.8);
+  vertex(130, 100);
+  vertex(130, 120);
+  vertex(200, 120);
+  vertex(200, 135);
+  vertex(220, 110);
+  vertex(200, 85);
+  vertex(200, 100);
+  vertex(130, 100);    
+  endShape();
+  popMatrix();
+
+  pushMatrix();
+  translate(0, -30);
+
+  pushMatrix();
+
+  scale(0.9, 0.8);
+  translate(260, 90);
+
+  pushMatrix();
+  fill(20);
+  rect(0, 0, 50, 50);
+  fill(#FFFFFF);
+  beginShape();
+  vertex(40, 20);
+  vertex(40, 30);
+  vertex(20, 30);
+  vertex(20, 40);
+  vertex(10, 25);
+  vertex(20, 10);
+  vertex(20, 20);
+  vertex(40, 20);    
+  endShape();
+  popMatrix();
+  pushMatrix();
+  scale(-1, 1);
+  translate(-110, 0);
+  fill(20);
+  rect(0, 0, 50, 50);
+  fill(#FFFFFF);
+  beginShape();
+  vertex(40, 20);
+  vertex(40, 30);
+  vertex(20, 30);
+  vertex(20, 40);
+  vertex(10, 25);
+  vertex(20, 10);
+  vertex(20, 20);
+  vertex(40, 20);    
+  endShape();
+  popMatrix();
+
+  popMatrix();
+
+  pushMatrix();
+  translate(248, 150);
+  fill(20);    
+  beginShape();
+  vertex(0, 0);
+  vertex(70, 0);
+  vertex(70, 100);
+  vertex(30, 100);
+  vertex(30, 60);
+  vertex(0, 60);
+  endShape();
+  fill(#FFFFFF);
+  beginShape();
+  vertex(43, 25);
+  vertex(50, 10);
+  vertex(60, 10);
+  vertex(50, 35);
+  vertex(20, 35);
+  vertex(20, 45);
+  vertex(10, 30);
+  vertex(20, 15);
+  vertex(20, 25);
+  vertex(43, 25);    
+  endShape();
+  popMatrix();
+
+  pushMatrix();
+  scale(1.5);
+  translate(170, 201);
+  beginShape();
+  vertex(0, 0);
+  vertex(0, 20);
+  vertex(5, 15);
+  vertex(10, 25);
+  vertex(13, 23);
+  vertex(8, 14);
+  vertex(14, 14);
+  vertex(0, 0);
+  endShape();
+  popMatrix();
+
+  popMatrix();
+}
+
+void Characters() {
+  ColorCode = #FFFFFF;
+  x = 0;
+  y = 0;
+  w = 900;
+  h = 500;
+  fill(255);
+
+  pushMatrix();
+  translate(100, 30);
+  Xiik.Show();
+  popMatrix();
+
+  pushMatrix();
+  translate(350, 30);
+  Nej.Show();
+  popMatrix();
+
+  pushMatrix();
+  translate(600, 30);
+  Waxak.Show();
+  popMatrix();
+
+  //CharacteristicsRects
+  fill(#81FFE5);
+  rect(100, 250, 200, 130);
+  fill(#FF646A);
+  rect(350, 250, 200, 130);
+  fill(#9A7AC6);
+  rect(600, 250, 200, 130);
+
+  if (Chosen == 1) {
+    fill(#17C1A3);
+  } else {
+    fill(#FFFFFF);
+  }
+  rect(100, 400, 200, 50);
+
+  if (Chosen == 2) {
+    fill(#BC1313);
+  } else {
+    fill(#FFFFFF);
+  }  
+  rect(350, 400, 200, 50);
+
+  if (Chosen == 3) {
+    fill(#2E006F);
+  } else {
+    fill(#FFFFFF);
+  }
+  rect(600, 400, 200, 50);
+
+  if (Chosen == 4) {
+    Chosen = 1;
+  }
+
+  if (Chosen == 0) {
+    Chosen = 3;
+  }
+
+  textFont(PantonBold);
+  fill(#FFFFFF);
+  text(Xiik.Name, 150, 432);
+  text(Nej.Name, 400, 432);
+  text(Waxak.Name, 623, 432);
+
+  textFont(PantonBold15);
+  fill(#17C1A3);
+  text("Habilidad:        10", 120, 285);
+  text("Resistencia:     100", 120, 320);
+  text("Agilidad:          25%", 120, 355);
+
+  fill(#BC1313);
+  text("Habilidad:        15", 370, 285);
+  text("Resistencia:     120", 370, 320);
+  text("Agilidad:          15%", 370, 355);
+
+  fill(#2E006F);
+  text("Habilidad:        20", 620, 285);
+  text("Resistencia:     150", 620, 320);
+  text("Agilidad:          5%", 620, 355);
+
+  pushMatrix();
+  translate(420, 465);
+  scale(.5);
+  pushMatrix();
+  fill(20);
+  rect(0, 0, 50, 50);
+  fill(#FFFFFF);
+  beginShape();
+  vertex(40, 20);
+  vertex(40, 30);
+  vertex(20, 30);
+  vertex(20, 40);
+  vertex(10, 25);
+  vertex(20, 10);
+  vertex(20, 20);
+  vertex(40, 20);    
+  endShape();
+  popMatrix();
+  pushMatrix();
+  scale(-1, 1);
+  translate(-110, 0);
+  fill(20);
+  rect(0, 0, 50, 50);
+  fill(#FFFFFF);
+  beginShape();
+  vertex(40, 20);
+  vertex(40, 30);
+  vertex(20, 30);
+  vertex(20, 40);
+  vertex(10, 25);
+  vertex(20, 10);
+  vertex(20, 20);
+  vertex(40, 20);    
+  endShape();
+  popMatrix();
+
+  popMatrix();
+
+  fill(20);
+  textFont(PantonLight);
+  text("Cuando hayas seleccionado", 663, 485);
+
+  pushMatrix();
+  translate(870, 442);
+  scale(0.9);
+  fill(20);
+  beginShape();
+  vertex(0, 0);
+  vertex(0, 20);
+  vertex(5, 15);
+  vertex(10, 25);
+  vertex(13, 23);
+  vertex(8, 14);
+  vertex(14, 14);
+  vertex(0, 0);
+  endShape();
+  popMatrix();
+}
+
+void GameOn() {
+  ColorCode = #2985B2;
+
+  textFont(Freeland, 150);
+  fill(#FFFFFF);
+  text("¿Estás listo?", 35, 300);
+
+  textFont(PantonBold);
+  fill(#00496C);
+  text("Recuerda que Jaatsahá puede cambiar de forma", 170, 100);
+
+  x = 0;
+  y = 0;
+  w = 900;
+  h = 500;
+  fill(255);
+  rect(x, y, w, h);
+
+  pushMatrix();
+  translate(430, 350);
+  scale(2);
+  fill(#FFFFFF);
+  beginShape();
+  vertex(0, 0);
+  vertex(0, 20);
+  vertex(5, 15);
+  vertex(10, 25);
+  vertex(13, 23);
+  vertex(8, 14);
+  vertex(14, 14);
+  vertex(0, 0);
+  endShape();
+  popMatrix();
+}
+
+void GameScreen() {
+  x = 0;
+  y = 0;
+  w = 900;
+  h = 500;
+
+  fill(#838383);
+  textFont(PantonLight);
+  text("Vida                 Suerte               Ataque", 32, 450); 
+  text("Ataque                       Vida", 680, 450);
+
+  pushMatrix();
+  translate(230, 460);
+  scale(0.3);
+  fill(#000000);    
+  beginShape();
+  vertex(0, 0);
+  vertex(70, 0);
+  vertex(70, 100);
+  vertex(30, 100);
+  vertex(30, 60);
+  vertex(0, 60);
+  endShape();
+  fill(#FFFFFF);
+  beginShape();
+  vertex(43, 25);
+  vertex(50, 10);
+  vertex(60, 10);
+  vertex(50, 35);
+  vertex(20, 35);
+  vertex(20, 45);
+  vertex(10, 30);
+  vertex(20, 15);
+  vertex(20, 25);
+  vertex(43, 25);    
+  endShape();
+  popMatrix();
+
+  pushMatrix();
+  translate(695, 460);
+  scale(0.3);
+  fill(#000000);    
+  beginShape();
+  vertex(0, 0);
+  vertex(70, 0);
+  vertex(70, 100);
+  vertex(30, 100);
+  vertex(30, 60);
+  vertex(0, 60);
+  endShape();
+  fill(#FFFFFF);
+  beginShape();
+  vertex(43, 25);
+  vertex(50, 10);
+  vertex(60, 10);
+  vertex(50, 35);
+  vertex(20, 35);
+  vertex(20, 45);
+  vertex(10, 30);
+  vertex(20, 15);
+  vertex(20, 25);
+  vertex(43, 25);    
+  endShape();
+  popMatrix();
+
+  switch(Chosen) {
+  case 1:
+    ColorCode = #404040;
+    pushMatrix();
+    translate(30, 30);
+    scale(1.5);
+    Xiik.Show();
+    popMatrix();
+
+    textFont(PantonBold);
+    text(Xiik.Name, 30, 400);
+    text(Xiik.Skill, 230, 430);
+    text(Xiik.Resistance, 30, 430);
+    text(Xiik.Agility, 130, 430);
+
+    ResultN = int(random(Luck25.length));
+    N = 3;
+    Attack = Xiik.Skill;
+
+    //Attacker
+    pushMatrix();
+    translate(600, 50);
+    JaatsahaAgua.Show();
+    popMatrix();
+
+    textFont(PantonBold);
+    text(JaatsahaAgua.Name, 600, 400);
+    text(JaatsahaAgua.Skill, 700, 430);
+    text(JaatsahaAgua.Resistance, 800, 430);
+
+    break;
+
+  case 2:
+    ColorCode = #1F1F1F;
+    pushMatrix();
+    translate(30, 30);
+    scale(1.5);
+    Nej.Show();
+    popMatrix();
+
+    textFont(PantonBold);
+    text(Nej.Name, 30, 400);
+    text(Nej.Skill, 230, 430);
+    text(Nej.Resistance, 30, 430);
+    text(Nej.Agility, 130, 430);
+
+    ResultN = int(random(Luck15.length));
+    N = 6;
+    Attack = Nej.Skill;
+
+    //Attacker
+    pushMatrix();
+    translate(600, 50);
+    JaatsahaFuego.Show();
+    popMatrix();
+
+    textFont(PantonBold);
+    text(JaatsahaFuego.Name, 600, 400);
+    text(JaatsahaFuego.Skill, 700, 430);
+    text(JaatsahaFuego.Resistance, 800, 430);
+
+    break;
+
+  case 3:
+    ColorCode = #4D4D4D;
+    pushMatrix();
+    translate(30, 30);
+    scale(1.5);
+    Waxak.Show();
+    popMatrix();
+
+    textFont(PantonBold);
+    text(Waxak.Name, 30, 400);
+    text(Waxak.Skill, 230, 430);
+    text(Waxak.Resistance, 30, 430);
+    text(Waxak.Agility, 130, 430);
+
+    ResultN = int(random(Luck5.length));
+    N = 19;
+    Attack = Waxak.Skill;
+
+    //Attacker
+    pushMatrix();
+    translate(600, 50);
+    JaatsahaViento.Show();
+    popMatrix();
+
+    textFont(PantonBold);
+    text(JaatsahaViento.Name, 600, 400);
+    text(JaatsahaViento.Skill, 700, 430);
+    text(JaatsahaViento.Resistance, 800, 430);
+
+    break;
+  }
+
+  if (Xiik.Resistance <= 0) {    
+    Xiik.Resistance = 0;
+  }
+
+  if (Nej.Resistance <= 0) {    
+    Nej.Resistance = 0;
+  }
+
+  if (Waxak.Resistance <= 0) {    
+    Waxak.Resistance = 0;
+  }
+
+  if (JaatsahaAgua.Resistance <= 0) {    
+    JaatsahaAgua.Resistance = 0;
+  }
+
+  if (JaatsahaFuego.Resistance <= 0) {    
+    JaatsahaFuego.Resistance = 0;
+  }
+
+  if (JaatsahaViento.Resistance <= 0) {    
+    JaatsahaViento.Resistance = 0;
+  }
+
+  DodgeTimeOnScreen++;
+  if (DodgeTimeOnScreen <= 120) {
+    fill(#FFE200);  
+    textFont(Freeland);
+    textSize(60);
+    text("¡Ataque", 260, 180);
+    textSize(70);
+    text("evadido!", 330, 250);
+  }
+
+  if (Xiik.Resistance <= 0 || Nej.Resistance <= 0 || Waxak.Resistance <= 0 || JaatsahaAgua.Resistance <= 0 || JaatsahaFuego.Resistance <= 0 || JaatsahaViento.Resistance <= 0) {
+    fill(#FFFFFF);
+    rect(0, 160, 900, 100);
+    fill(#000000);
+    textFont(Freeland);
+    textSize(120);
+    text("Juego Terminado", 30, 230);
+
+    pushMatrix();
+    translate(870, 230);
+    beginShape();
+    vertex(0, 0);
+    vertex(0, 20);
+    vertex(5, 15);
+    vertex(10, 25);
+    vertex(13, 23);
+    vertex(8, 14);
+    vertex(14, 14);
+    vertex(0, 0);
+    endShape();
+    popMatrix();
+  }
+}
+
+void Turn1() {
+
+  switch (Chosen) {
+  case 1:
+    JaatsahaAgua.Resistance -= Attack;
+    break;
+
+  case 2:
+    JaatsahaFuego.Resistance -= Attack;
+    break;
+
+  case 3:
+    JaatsahaViento.Resistance -= Attack;
+    break;
+  }
+
+  Turn = 2;
+}
+
+
+void Turn2() {
+
+  switch (Chosen) {
+  case 1:
+    Result = int(random(Luck25.length));
+
+    if (Result == 3) {
+      DodgeTimeOnScreen = 0;
+    } else {
+      Xiik.Resistance -= JaatsahaAgua.Skill;
+    }
+    break;
+
+  case 2:
+    Result = int(random(Luck15.length));
+
+    if (Result == 6) {
+      DodgeTimeOnScreen = 0;
+    } else {
+      Nej.Resistance -= JaatsahaFuego.Skill;
+    }
+    break;
+
+  case 3:
+    Result = int(random(Luck15.length));
+
+    if (Result == 19) {
+      DodgeTimeOnScreen = 0;
+    } else {
+      Waxak.Resistance -= JaatsahaViento.Skill;
+    }
+    break;
+  }
+
+  Turn = 1;
+}
+
+void GameOver() {
+  textFont(Freeland);
+
+  if (Xiik.Resistance >= 1 && Nej.Resistance >= 1 && Waxak.Resistance >= 1) {
+    ColorCode = #FFFFFF;
+    fill(#FFC503);  
+    text("¡Ganaste!", 80, 260);
+  } else {
+    ColorCode = 0;
+    fill(#FF0303);
+    text("Perdiste", 120, 260);
+  }
+
+  textFont(PantonBold);
+  text("Haz click para regresar a la pantalla de inicio", 180, 450);
+}
+
+void mouseReleased() {
+  if (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h) {
+    Screen++;
+    println(Screen);
+    if (Screen == 7) {
+      Screen = 0;
+      Countdown = 0;
+      Xiik.Resistance = 100;
+      Nej.Resistance = 120;
+      Waxak.Resistance = 150;
+      JaatsahaAgua.Resistance = 200;
+      JaatsahaFuego.Resistance = 200;
+      JaatsahaViento.Resistance = 200;
+    }
+  }
+}
+
+void keyPressed() {
+  if (Screen == 3) {  
+    if (key == CODED) {
+      if (keyCode == RIGHT) {
+        Chosen++;
+      }
+      if (keyCode == LEFT) {
+        Chosen--;
+      }
+    }
+  }
+
+  if (keyPressed && keyCode == ENTER) {
+
+    if (Xiik.Resistance >= 1 && Nej.Resistance >= 1 && Waxak.Resistance >= 1 && JaatsahaAgua.Resistance >= 1 && JaatsahaFuego.Resistance >= 1 && JaatsahaViento.Resistance >= 1) {
+      if (Turn == 1) {
+        Turn1();
+        println(Turn);
+      } else {
+        Turn2();
+        println(Turn);
+      }
+    }
+  }
+}
